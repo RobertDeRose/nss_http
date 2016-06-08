@@ -1,3 +1,4 @@
+#include <yaml.h>
 #include "nss_http.h"
 
 struct response {
@@ -94,3 +95,79 @@ error:
     return NULL;
 }
 
+void get_config_host(char * out_hostname){
+    //FILE *fh = fopen("/etc/nss_http/nss_http.yml", "r");
+    FILE *fh = fopen("nss_http.yml", "r");
+    yaml_parser_t parser;
+    yaml_token_t  token;   /* new variable */
+
+    /* Initialize parser */
+    if(!yaml_parser_initialize(&parser))
+        fputs("Failed to initialize parser!\n", stderr);
+    if(fh == NULL)
+        fputs("Failed to open file!\n", stderr);
+
+    /* Set input file */
+    yaml_parser_set_input_file(&parser, fh);
+
+    int found_key_token = 0;
+    int found_root_token = 0;
+    int found_host_token = 0;
+    int found_host_value_token = 0;
+
+    int debug = 0;
+
+    /* BEGIN new code */
+    do {
+        yaml_parser_scan(&parser, &token);
+
+        if (token.type == YAML_KEY_TOKEN){
+
+            if (debug)
+                printf("found key token\n");
+            found_key_token = 1;
+
+        }
+
+        if (token.type == YAML_SCALAR_TOKEN && found_key_token == 1){
+            if (!strncmp((const char*)token.data.scalar.value, "nss_http", strlen((const char *)"nss_http"))){
+
+                if (debug)
+                    printf("found root token %s\n", token.data.scalar.value);
+                found_root_token = 1;
+            }
+
+            if (found_root_token == 1 && !strncmp((const char*)token.data.scalar.value, "host_url", strlen("host_url"))){
+                if (debug)
+                    printf("found host token\n");
+                found_host_token = 1;
+            }
+
+            if (found_host_value_token == 1)
+            {
+                if (debug)
+                    printf("found host value\n");
+                strcpy(out_hostname, (const char*)token.data.scalar.value);
+                found_host_value_token = 0;
+                found_host_token = 0;
+                found_key_token = 0;
+            }
+        }
+
+        if (token.type == YAML_VALUE_TOKEN && found_root_token == 1 && found_host_token == 1){
+            if (debug)
+                printf("found host value\n");
+            found_host_value_token = 1;
+
+        }
+
+        if(token.type != YAML_STREAM_END_TOKEN)
+            yaml_token_delete(&token);
+    } while(token.type != YAML_STREAM_END_TOKEN);
+    yaml_token_delete(&token);
+    /* END new code */
+
+    /* Cleanup */
+    yaml_parser_delete(&parser);
+    fclose(fh);
+}

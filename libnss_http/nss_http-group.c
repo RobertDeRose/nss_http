@@ -75,7 +75,9 @@ _nss_http_setgrent_locked(int stayopen)
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group");
+    char host_name[255];
+    get_config_host(host_name);
+    snprintf(url, 512, "http://%s/group", host_name);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -191,8 +193,10 @@ _nss_http_getgrgid_r_locked(gid_t gid, struct group *result, char *buffer, size_
     char url[512];
     json_t *json_root;
     json_error_t json_error;
+    char host_name[255];
+    get_config_host(host_name);
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group?gid=%d", gid);
+    snprintf(url, 512, "http://%s/group?gid=%d", host_name, gid);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -245,7 +249,10 @@ _nss_http_getgrnam_r_locked(const char *name, struct group *result, char *buffer
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group?name=%s", name);
+    char host_name[255];
+    get_config_host(host_name);
+
+    snprintf(url, 512, "%s/group?name=%s", host_name, name);
 
     char *response = nss_http_request(url);
     if (!response) {

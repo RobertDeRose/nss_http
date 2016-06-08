@@ -35,7 +35,7 @@ nss_http: nss_http_build_dir nss_http_services
 		$(BUILD)/nss_http-passwd.o \
 		$(BUILD)/nss_http-group.o \
 		$(BUILD)/nss_http-shadow.o \
-        -lcurl -ljansson
+        -lcurl -ljansson -lyaml
 
 clean:
 	rm -rf $(BUILD)

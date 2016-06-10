@@ -2,11 +2,20 @@
 
 ## Description
 
-This is a simple Name Service Switch module that I wrote in order to quickly
-extend nss via an HTTP server that runs on localhost. __This is seriously not
-meant to be used in a production environment. Not only is it inefficient but
-I'm extremely rusty with C and there are likely overflow errors and other
-security problems. Use at your own enjoyment.__
+    This is a simple Name Service Switch module that I wrote in order to quickly
+    extend nss via an HTTP server that runs on localhost. __This is seriously not
+    meant to be used in a production environment. Not only is it inefficient but
+    I'm extremely rusty with C and there are likely overflow errors and other
+    security problems. Use at your own enjoyment.__
+    
+The above is old description
+
+I forked to make two changes.
+
+1. Include YAML support so that we can read from yaml file instead of hardcoded server
+2. Include path support so that we can get what we want over public URL but with token - so that it can be secure.
+
+With this module, I made it generic and now it hits our own opensource mfa server to give user's appropriate access.
 
 ## Installation
 

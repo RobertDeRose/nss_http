@@ -20,6 +20,6 @@
 
 extern char *nss_http_request(const char *);
 extern size_t j_strlen(json_t *);
-extern void get_config_host(char *);
+extern void get_config_host(char *, char *);
 
 #endif /* NSS_HTTP_H */

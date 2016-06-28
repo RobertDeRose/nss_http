@@ -1,3 +1,3 @@
 nss_http:
-  host_url: http://<hostname/profile/nss-http
+  host_url: https://<hostname>/profile/nss-http
   api_key: <EXAMPLE TOKEN>

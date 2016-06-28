@@ -27,6 +27,8 @@ sudo make install
 
 You'll need to have `libjansson` and `libcurl` installed.
 
+`sudo apt-get install libcurl4-openssl-dev libjansson-dev libyaml-dev`
+
 ## Configuration
 
 Once the module is installed on your system you just have to modify the

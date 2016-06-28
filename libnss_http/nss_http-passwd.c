@@ -86,9 +86,9 @@ _nss_http_setpwent_locked(int stayopen)
     json_error_t json_error;
 
     char host_name[255];
-    get_config_host(host_name);
-
-    snprintf(url, 512, "%s/passwd", host_name);
+    char token[255];
+    get_config_host(host_name, token);
+    snprintf(url, 512, "%s/passwd?token=%s", host_name, token);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -206,8 +206,9 @@ _nss_http_getpwuid_r_locked(uid_t uid, struct passwd *result, char *buffer, size
     json_error_t json_error;
 
     char host_name[255];
-    get_config_host(host_name);
-    snprintf(url, 512, "%s/passwd?uid=%d", host_name, uid);
+    char token[255];
+    get_config_host(host_name, token);
+    snprintf(url, 512, "%s/passwd?token=%s&uid=%d", host_name, token, uid);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -261,9 +262,11 @@ _nss_http_getpwnam_r_locked(const char *name, struct passwd *result, char *buffe
     json_error_t json_error;
 
     char host_name[255];
-    get_config_host(host_name);
+    char token[255];
+    get_config_host(host_name, token);
 
-    snprintf(url, 512, "%s/passwd?name=%s", host_name, name);
+
+    snprintf(url, 512, "%s/passwd?token=%s&name=%s", host_name, token, name);
 
     char *response = nss_http_request(url);
     if (!response) {

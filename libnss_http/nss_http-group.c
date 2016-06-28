@@ -198,7 +198,7 @@ _nss_http_getgrgid_r_locked(gid_t gid, struct group *result, char *buffer, size_
     char token[255];
     get_config_host(host_name, token);
 
-    snprintf(url, 512, "http://%s/group?gid=%d", host_name, gid);
+    snprintf(url, 512, "%s/group?gid=%d", host_name, gid);
 
     char *response = nss_http_request(url);
     if (!response) {

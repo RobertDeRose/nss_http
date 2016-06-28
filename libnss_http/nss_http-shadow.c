@@ -77,9 +77,9 @@ _nss_http_setspent_locked(int stayopen)
     json_t *json_root;
     json_error_t json_error;
     char host_name[255];
-    get_config_host(host_name);
-
-    snprintf(url, 512, "%s/shadow", host_name);
+    char token[255];
+    get_config_host(host_name, token);
+    snprintf(url, 512, "%s/shadow?token=%s", host_name, token);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -196,8 +196,9 @@ _nss_http_getspnam_r_locked(const char *name, struct spwd *result, char *buffer,
     json_error_t json_error;
 
     char host_name[255];
-    get_config_host(host_name);
-    snprintf(url, 512, "%s/shadow?name=%s", host_name, name);
+    char token[255];
+    get_config_host(host_name, token);
+    snprintf(url, 512, "%s/shadow?token=%s&name=%s", host_name, token, name);
 
     char *response = nss_http_request(url);
     if (!response) {

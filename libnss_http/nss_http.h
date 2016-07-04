@@ -13,8 +13,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#define NSS_HTTP_SERVER "localhost"
-#define NSS_HTTP_PORT "9669"
 #define NSS_HTTP_INITIAL_BUFFER_SIZE (256 * 1024)  /* 256 KB */
 #define NSS_HTTP_MAX_BUFFER_SIZE (10 * 1024 * 1024)  /* 10 MB */
 

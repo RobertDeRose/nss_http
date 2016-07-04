@@ -92,7 +92,7 @@ nss_http_request(const char *url) {
 
 void get_config_host(char *out_hostname, char *out_token) {
     //FILE *fh = fopen("/etc/nss_http/nss_http.yml", "r");
-    FILE *fh = fopen("nss_http.yml", "r");
+    FILE *fh = fopen("/etc/gate/nss.yml", "r");
     yaml_parser_t parser;
     yaml_token_t token;   /* new variable */
 

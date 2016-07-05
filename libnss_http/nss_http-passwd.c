@@ -269,6 +269,8 @@ _nss_http_getpwnam_r_locked(const char *name, struct passwd *result, char *buffe
     snprintf(url, 512, "%s/passwd?token=%s&name=%s", host_name, token, name);
 
     char *response = nss_http_request(url);
+
+    //printf("RESPONSE \n %s \n", response);
     if (!response) {
         *errnop = ENOENT;
         return NSS_STATUS_UNAVAIL;
@@ -277,12 +279,15 @@ _nss_http_getpwnam_r_locked(const char *name, struct passwd *result, char *buffe
     json_root = json_loads(response, 0, &json_error);
 
     if (!json_root) {
+        printf("Could not parse JSON\n");
         *errnop = ENOENT;
         return NSS_STATUS_UNAVAIL;
     }
 
     int pack_result = pack_passwd_struct(json_root, result, buffer, buflen);
     if (pack_result == -1) {
+        printf("Could not pack JSON\n");
+
         json_decref(json_root);
         *errnop = ENOENT;
         return NSS_STATUS_UNAVAIL;
